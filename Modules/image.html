@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generative AI Demo</title>
+    <style>
+      #loader {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Generative AI Demo</h1>
+
+    <form id="imageForm" enctype="multipart/form-data">
+      <label for="imageInput">Upload an image:</label>
+      <input type="file" accept="image/*" id="imageInput" required />
+      <button type="button" onclick="generateContent()">Generate</button>
+    </form>
+
+    <div id="loader">Processing...</div>
+
+    <div id="feedback"></div>
+
+    <script>
+      async function generateContent() {
+        const imageInput = document.getElementById("imageInput");
+        const file = imageInput.files[0];
+
+        if (!file) {
+          alert("Please select an image.");
+          return;
+        }
+
+        const loader = document.getElementById("loader");
+        const feedback = document.getElementById("feedback");
+
+        loader.style.display = "block";
+        feedback.textContent = "";
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+          const response = await fetch(
+            "http://localhost:3000/generateContent",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          // Check if response status is OK (200)
+          if (!response.ok) {
+            throw new Error(
+              `Error: ${response.status} - ${response.statusText}`
+            );
+          }
+
+          // Parse response JSON
+          const data = await response.json();
+
+          if (data.success) {
+            feedback.textContent = data.description;
+          } else {
+            alert("Error generating content");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Error generating content");
+        } finally {
+          loader.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

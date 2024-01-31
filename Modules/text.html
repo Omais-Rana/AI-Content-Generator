@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div style="position: relative">
+      <input id="prompt" type="text" placeholder="Enter your prompt here" />
+      <button id="generate">Generate</button>
+      <button id="copy" style="position: absolute; top: 0; right: 0">
+        📋
+        <!-- Unicode clipboard icon -->
+      </button>
+      <div id="loader" style="display: none; height: 20px"></div>
+      <textarea
+        id="result"
+        readonly
+        style="
+          width: 100%;
+          height: 300px;
+          box-sizing: border-box;
+          margin-top: 30px;
+        "
+      ></textarea>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
+    <script type="module">
+      async function fetchApiKey() {
+        try {
+          const response = await fetch("http://localhost:3000/config");
+          if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+          }
+          const { API_KEY } = await response.json();
+          return API_KEY;
+        } catch (error) {
+          console.error("Error fetching API key:", error.message);
+          throw error;
+        }
+      }
+
+      async function runModel() {
+        try {
+          const loader = document.getElementById("loader");
+          const resultTextarea = document.getElementById("result");
+
+          loader.style.display = "block";
+          resultTextarea.value = "Generating...";
+
+          const API_KEY = await fetchApiKey();
+
+          const prompt = document.getElementById("prompt").value;
+          const response = await fetch(
+            `http://localhost:3000/generateContent/${prompt}`
+          );
+          const text = await response.text();
+
+          resultTextarea.value = text;
+        } catch (error) {
+          console.error("Error during generation:", error.message);
+          document.getElementById("result").value =
+            "Error during generation. Please try again.";
+        } finally {
+          loader.style.display = "none";
+        }
+      }
+
+      document.getElementById("generate").addEventListener("click", runModel);
+
+      document.getElementById("prompt").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          runModel();
+        }
+      });
+
+      document.getElementById("copy").addEventListener("click", () => {
+        const textarea = document.getElementById("result");
+        textarea.select();
+        document.execCommand("copy");
+      });
+    </script>
+  </body>
+</html>
