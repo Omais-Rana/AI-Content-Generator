@@ -4,9 +4,16 @@
 * Text Generation<br>
 * Image Analysis<br>
 
+# Installation
+
+Follow the steps mentioned below to install and run the project. You may find more details about Gemini from Google's official documentation.
+
+1. Clone or download the repository
+2. You will have to obtain your free API key from [Get API Key.](https://makersuite.google.com/app/apikey) and paste it into the .env file in place of `your-api-key`.<br>
+3. In the 
+
 # Working:
-<h2>For usage with user authentication</h2>
-- Makes use of a laravel template to authenticate the user before they are able to use the features.<br>
+- You will have to obtain your free API key from [Get API Key.](https://makersuite.google.com/app/apikey) and paste it into the .env file.<br>
 - You may use the following account credentials to login. The sign up option is not accessible but the module has been built.<br>
 
 ```
@@ -20,22 +27,7 @@ Pass: secret
 - Original URLs and their shortened versions are stored in the database with the table named as "url_mappings". <br>
 - The prefix "sho.rt/" is used in shortened links which can be changed from URL controller and the web route files.
 
-# Installation
 
-Follow the steps mentioned below to install and run the project. You may find more details about the template and packages used in the Links portion below.
-
-1. Clone or download the repository
-2. Go to the project directory and run `composer install`
-3. Create `.env` file by copying the `.env.example`. You may use the command to do that `cp .env.example .env`
-4. Update the database name and credentials in `.env` file
-5. Run `composer require simplesoftwareio/simple-qrcode "~4"` and `composer require picqer/php-barcode-generator` to add the packages. 
-6. Run the command to generate application key `php artisan key:generate`
-7. Run the command `php artisan migrate --seed`
-8. Link storage directory: `php artisan storage:link`
-9. Run this command to create a table `php artisan make:migration create_url_mappings_table` and migrate using `php artisan migrate`
-10. You may create a virtualhost entry to access the application or run `php artisan serve` from the project root and visit `http://127.0.0.1:8000`
-
-<h3>Imagick extension for PHP is must for PNG format. You can change the format for SVG in the code and it wouldn't require any extensions</h3>
     
 # Links:
 [QR Code Package.](http://www.simplesoftware.io/#/docs/simple-qrcode) <br>
