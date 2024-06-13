@@ -9,7 +9,7 @@
 Follow the steps mentioned below to install and run the project. You may find more details about Gemini from Google's official documentation.
 
 1. Clone or download the repository
-2. You will have to obtain your free API key from [Get API Key.](https://makersuite.google.com/app/apikey) and paste it into the .env file in place of `your-api-key`
+2. Obtain your free API key from [Get API Key.](https://makersuite.google.com/app/apikey) and paste it into the .env file in place of `your-api-key`
 3. Open cmd in the same directory and install Node using `npm i` command
 4. Run the "gemini.js" server by `npm start` command from terminal or using VS Code's run feature. You will also need to install all the necessary dependencies. See "package.json" file for those
 5. In "Modules" folder you will find the text and image pages. You can open them and use their respective functionality
